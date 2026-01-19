@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS events (
     description TEXT NOT NULL,
 
     date TEXT NOT NULL,
-    location TEXT NOT NULL
+    location TEXT NOT NULL,
 
     FOREIGN KEY (owner_id) REFERENCES users(id)
 );
