@@ -1,4 +1,4 @@
 tmp/
 data.db
-internal/database/*.go
+internal/database/compiled-sql/
 event-app
