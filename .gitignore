@@ -1,2 +1,3 @@
 tmp/
+internal/database/*.go
 event-app
