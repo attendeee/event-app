@@ -1,4 +1,3 @@
 tmp/
 data.db
-internal/database/compiled-sql/
 event-app
