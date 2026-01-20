@@ -14,11 +14,10 @@ func main() {
 	r := gin.Default()
 
 	corsConfig := cors.Config{
-		AllowAllOrigins: true,
-		AllowOrigins:    []string{"http://example.com"},
-		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders:    []string{"Origin", "Content-Type", "Authorization"},
-		MaxAge:          12 * time.Hour,
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
+		MaxAge:       12 * time.Hour,
 	}
 
 	r.Use(cors.New(corsConfig))
