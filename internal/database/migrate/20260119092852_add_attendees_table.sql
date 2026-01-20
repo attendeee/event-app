@@ -2,6 +2,7 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS attendees (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+
     user_id INTEGER,
     event_id INTEGER,
 
