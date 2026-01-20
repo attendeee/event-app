@@ -5,7 +5,8 @@ SELECT * FROM users;
 SELECT * FROM users 
 WHERE email = (?);
 
--- name: CreateUser :exec
+-- name: CreateUser :one
 INSERT INTO 
 users(name, email, password) 
-VALUES (?, ?, ?);
+VALUES (?, ?, ?)
+RETURNING *;
