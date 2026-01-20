@@ -73,3 +73,17 @@ func AuthUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"token": token})
 
 }
+
+func GetAllUsers(c *gin.Context) {
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	users, err := q.GetAllUsers(context.Background() /* Todo: make something with this line */)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusFound, gin.H{"users": users})
+
+}
