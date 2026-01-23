@@ -26,6 +26,21 @@ func (q *Queries) AddAttendee(ctx context.Context, arg AddAttendeeParams) error 
 	return err
 }
 
+const deleteAttendee = `-- name: DeleteAttendee :exec
+DELETE FROM attendees 
+WHERE user_id = (?) AND event_id = (?)
+`
+
+type DeleteAttendeeParams struct {
+	UserID  sql.NullInt64
+	EventID sql.NullInt64
+}
+
+func (q *Queries) DeleteAttendee(ctx context.Context, arg DeleteAttendeeParams) error {
+	_, err := q.db.ExecContext(ctx, deleteAttendee, arg.UserID, arg.EventID)
+	return err
+}
+
 const getAllAttendeesForEvent = `-- name: GetAllAttendeesForEvent :many
 SELECT id, user_id, event_id FROM attendees
 WHERE event_id = (?)

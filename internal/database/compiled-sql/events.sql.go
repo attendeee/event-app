@@ -35,6 +35,16 @@ func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) error 
 	return err
 }
 
+const deleteEventById = `-- name: DeleteEventById :exec
+DELETE FROM events 
+WHERE id = (?)
+`
+
+func (q *Queries) DeleteEventById(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteEventById, id)
+	return err
+}
+
 const getAllEvents = `-- name: GetAllEvents :many
 SELECT id, owner_id, name, description, date, location FROM events
 `
@@ -137,4 +147,30 @@ func (q *Queries) GetEventByOwner(ctx context.Context, ownerID sql.NullInt64) ([
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateEvent = `-- name: UpdateEvent :exec
+UPDATE events 
+SET 
+    description = COALESCE(NULLIF(?, ''), description),
+    date = COALESCE(NULLIF(?, ''), date),
+    location = COALESCE(NULLIF(?, ''), location)
+WHERE id = (?)
+`
+
+type UpdateEventParams struct {
+	NULLIF   interface{}
+	NULLIF_2 interface{}
+	NULLIF_3 interface{}
+	ID       int64
+}
+
+func (q *Queries) UpdateEvent(ctx context.Context, arg UpdateEventParams) error {
+	_, err := q.db.ExecContext(ctx, updateEvent,
+		arg.NULLIF,
+		arg.NULLIF_2,
+		arg.NULLIF_3,
+		arg.ID,
+	)
+	return err
 }

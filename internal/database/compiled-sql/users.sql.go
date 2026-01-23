@@ -34,6 +34,16 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	return i, err
 }
 
+const deleteUserById = `-- name: DeleteUserById :exec
+DELETE FROM users 
+WHERE id = (?)
+`
+
+func (q *Queries) DeleteUserById(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteUserById, id)
+	return err
+}
+
 const getAllUsers = `-- name: GetAllUsers :many
 SELECT id, name, email, password FROM users
 `
@@ -81,4 +91,40 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 		&i.Password,
 	)
 	return i, err
+}
+
+const updateUserInfo = `-- name: UpdateUserInfo :exec
+UPDATE users 
+SET 
+    name = COALESCE(NULLIF(?, ''), name),
+    email = COALESCE(NULLIF(?, ''), email)
+
+WHERE id = (?)
+`
+
+type UpdateUserInfoParams struct {
+	NULLIF   interface{}
+	NULLIF_2 interface{}
+	ID       int64
+}
+
+func (q *Queries) UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserInfo, arg.NULLIF, arg.NULLIF_2, arg.ID)
+	return err
+}
+
+const updateUserPassword = `-- name: UpdateUserPassword :exec
+UPDATE users 
+SET password = (?) 
+WHERE id = (?)
+`
+
+type UpdateUserPasswordParams struct {
+	Password string
+	ID       int64
+}
+
+func (q *Queries) UpdateUserPassword(ctx context.Context, arg UpdateUserPasswordParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserPassword, arg.Password, arg.ID)
+	return err
 }
