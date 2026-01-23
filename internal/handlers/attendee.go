@@ -10,6 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /api/v1
+
+// @Summary      Get attendees
+// @Description  Get attendees for event
+// @Tags         attendee
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/{eventId}/attendees [get]
 func GetAttendees(c *gin.Context) {
 
 	p := c.Param("eventId")
@@ -39,6 +48,15 @@ func GetAttendees(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Add attendee
+// @Description  Add attendee for event
+// @Tags         attendee
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/addAttendee [post]
 func AddAttendee(c *gin.Context) {
 
 	a := &database.AddAttendeeParams{}
@@ -61,6 +79,15 @@ func AddAttendee(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Delete attendee
+// @Description  Delete attendee from event
+// @Tags         attendee
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/{eventId}/attendee/{attendeeId} [delete]
 func DeleteAttendee(c *gin.Context) {
 	uid, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {

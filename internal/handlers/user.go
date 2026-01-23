@@ -7,11 +7,20 @@ import (
 	"time"
 
 	database "github.com/attendeee/event-app/internal/database/compiled-sql"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 
+// @BasePath /api/v1
+
+// @Summary      Register user
+// @Description  Register user
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Router       /user/register [post]
 func RegisterUser(c *gin.Context) {
 	u := &database.CreateUserParams{}
 
@@ -42,6 +51,14 @@ func RegisterUser(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Authorize user
+// @Description  Authorize user
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Router       /user/auth [post]
 func AuthUser(c *gin.Context) {
 	u := &database.CreateUserParams{}
 
@@ -75,13 +92,25 @@ func AuthUser(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Get all users
+// @Description  Get all users
+// @Tags         user
+// @Produce      json
+// @Router       /user/all [get]
 func GetAllUsers(c *gin.Context) {
 	/* Todo: make something with this line */
 	q := database.Queries{}
 
-	users, err := q.GetAllUsers(context.Background() /* Todo: make something with this line */)
+	users, err := q.GetAllUsers(context.Background())
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	if len(users) < 1 {
+		c.JSON(http.StatusNotFound, nil)
 		return
 	}
 
@@ -89,6 +118,14 @@ func GetAllUsers(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Update user info
+// @Description  Update user info
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Router       /user/info [put]
 func UpdateUserInfo(c *gin.Context) {
 	up := database.UpdateUserInfoParams{}
 	err := c.BindJSON(up)
@@ -110,6 +147,14 @@ func UpdateUserInfo(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Update user password
+// @Description  Update user password
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Router       /user/password [put]
 func UpdateUserPassword(c *gin.Context) {
 	up := database.UpdateUserPasswordParams{}
 	err := c.BindJSON(up)
@@ -131,6 +176,15 @@ func UpdateUserPassword(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Delete user
+// @Description  Delete user
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /user/ [delete]
 func DeleteUserById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -10,6 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /api/v1
+
+// @Summary      Create event
+// @Description  Create event
+// @Tags         event
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event [post]
 func CreateEvent(c *gin.Context) {
 
 	e := database.CreateEventParams{}
@@ -32,6 +41,15 @@ func CreateEvent(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Get events by owner id
+// @Description  Get events by owner id
+// @Tags         event
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/{ownerId} [get]
 func GetEventsByOwner(c *gin.Context) {
 
 	p := c.Param("ownerId")
@@ -61,6 +79,15 @@ func GetEventsByOwner(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Get events by name
+// @Description  Get events by name
+// @Tags         event
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/{name} [get]
 func GetEventsByName(c *gin.Context) {
 
 	name := c.Param("name")
@@ -82,6 +109,15 @@ func GetEventsByName(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Update event info
+// @Description  Update event info
+// @Tags         event
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/ [put]
 func UpdateEventInfo(c *gin.Context) {
 	up := database.UpdateEventParams{}
 	err := c.BindJSON(up)
@@ -103,6 +139,15 @@ func UpdateEventInfo(c *gin.Context) {
 
 }
 
+// @BasePath /api/v1
+
+// @Summary      Delete event
+// @Description  Delete event
+// @Tags         event
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Router       /event/{eventId} [delete]
 func DeleteEventByid(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
