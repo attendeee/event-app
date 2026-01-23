@@ -6,3 +6,7 @@ WHERE event_id = (?);
 INSERT INTO 
 attendees (event_id, user_id) 
 VALUES (?, ?);
+
+-- name: DeleteAttendee :exec
+DELETE FROM attendees 
+WHERE user_id = (?) AND event_id = (?);

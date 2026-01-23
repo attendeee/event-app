@@ -13,3 +13,16 @@ WHERE name = (?);
 INSERT INTO 
 events(owner_id, name, description, date, location) 
 VALUES (?, ?, ?, ?, ?);
+
+-- name: UpdateEvent :exec
+UPDATE events 
+SET 
+    description = COALESCE(NULLIF(?, ''), description),
+    date = COALESCE(NULLIF(?, ''), date),
+    location = COALESCE(NULLIF(?, ''), location)
+WHERE id = (?);
+
+-- name: DeleteEventById :exec
+DELETE FROM events 
+WHERE id = (?);
+
