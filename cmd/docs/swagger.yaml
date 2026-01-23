@@ -1,0 +1,231 @@
+basePath: /api/v1
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server celler server.
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /event:
+    post:
+      consumes:
+      - application/json
+      description: Create event
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Create event
+      tags:
+      - event
+  /event/:
+    put:
+      consumes:
+      - application/json
+      description: Update event info
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Update event info
+      tags:
+      - event
+  /event/{eventId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete event
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete event
+      tags:
+      - event
+  /event/{eventId}/attendee/{attendeeId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete attendee from event
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete attendee
+      tags:
+      - attendee
+  /event/{eventId}/attendees:
+    get:
+      consumes:
+      - application/json
+      description: Get attendees for event
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get attendees
+      tags:
+      - attendee
+  /event/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Get events by name
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get events by name
+      tags:
+      - event
+  /event/{ownerId}:
+    get:
+      consumes:
+      - application/json
+      description: Get events by owner id
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get events by owner id
+      tags:
+      - event
+  /event/addAttendee:
+    post:
+      consumes:
+      - application/json
+      description: Add attendee for event
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Add attendee
+      tags:
+      - attendee
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: Basic Ping
+      produces:
+      - application/json
+      responses: {}
+      summary: Basic Ping
+      tags:
+      - healthcheck
+  /user/:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete user
+      tags:
+      - user
+  /user/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all users
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all users
+      tags:
+      - user
+  /user/auth:
+    post:
+      consumes:
+      - application/json
+      description: Authorize user
+      produces:
+      - application/json
+      responses: {}
+      summary: Authorize user
+      tags:
+      - user
+  /user/info:
+    put:
+      consumes:
+      - application/json
+      description: Update user info
+      produces:
+      - application/json
+      responses: {}
+      summary: Update user info
+      tags:
+      - user
+  /user/password:
+    put:
+      consumes:
+      - application/json
+      description: Update user password
+      produces:
+      - application/json
+      responses: {}
+      summary: Update user password
+      tags:
+      - user
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register user
+      produces:
+      - application/json
+      responses: {}
+      summary: Register user
+      tags:
+      - user
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
