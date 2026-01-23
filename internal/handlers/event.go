@@ -81,3 +81,44 @@ func GetEventsByName(c *gin.Context) {
 	c.JSON(http.StatusFound, gin.H{"events": foundEvents})
 
 }
+
+func UpdateEventInfo(c *gin.Context) {
+	up := database.UpdateEventParams{}
+	err := c.BindJSON(up)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, nil)
+		return
+	}
+
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	err = q.UpdateEvent(context.Background() /* Todo: make something with this line */, up)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+
+}
+
+func DeleteEventByid(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	err = q.DeleteEventById(context.Background() /* Todo: make something with this line */, int64(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+
+}

@@ -60,3 +60,34 @@ func AddAttendee(c *gin.Context) {
 	c.JSON(http.StatusCreated, nil)
 
 }
+
+func DeleteAttendee(c *gin.Context) {
+	uid, err := strconv.Atoi(c.Param("userId"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	eid, err := strconv.Atoi(c.Param("eventId"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	a := database.DeleteAttendeeParams{
+		UserID:  sql.NullInt64{Int64: int64(uid), Valid: true},
+		EventID: sql.NullInt64{Int64: int64(eid), Valid: true},
+	}
+
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	err = q.DeleteAttendee(context.Background(), a)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+
+}

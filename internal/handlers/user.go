@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"time"
 
 	database "github.com/attendeee/event-app/internal/database/compiled-sql"
@@ -85,5 +86,67 @@ func GetAllUsers(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusFound, gin.H{"users": users})
+
+}
+
+func UpdateUserInfo(c *gin.Context) {
+	up := database.UpdateUserInfoParams{}
+	err := c.BindJSON(up)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, nil)
+		return
+	}
+
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	err = q.UpdateUserInfo(context.Background() /* Todo: make something with this line */, up)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+
+}
+
+func UpdateUserPassword(c *gin.Context) {
+	up := database.UpdateUserPasswordParams{}
+	err := c.BindJSON(up)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, nil)
+		return
+	}
+
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	err = q.UpdateUserPassword(context.Background() /* Todo: make something with this line */, up)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+
+}
+
+func DeleteUserById(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	/* Todo: make something with this line */
+	q := database.Queries{}
+
+	err = q.DeleteUserById(context.Background() /* Todo: make something with this line */, int64(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, nil)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
 
 }
