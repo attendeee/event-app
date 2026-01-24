@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"context"
 	"database/sql"
 	"net/http"
 	"strconv"
 
 	database "github.com/attendeee/event-app/internal/database/compiled-sql"
+	dbConn "github.com/attendeee/event-app/internal/database/conn"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,9 +31,7 @@ func GetAttendees(c *gin.Context) {
 
 	id := sql.NullInt64{Int64: int64(pInt), Valid: true}
 
-	q := database.Queries{}
-
-	foundAttendees, err := q.GetAllAttendeesForEvent(context.Background(), id)
+	foundAttendees, err := dbConn.Query.GetAllAttendeesForEvent(dbConn.Context, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -67,9 +65,7 @@ func AddAttendee(c *gin.Context) {
 		return
 	}
 
-	q := database.Queries{}
-
-	err = q.AddAttendee(context.Background(), *a)
+	err = dbConn.Query.AddAttendee(dbConn.Context, *a)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -106,10 +102,7 @@ func DeleteAttendee(c *gin.Context) {
 		EventID: sql.NullInt64{Int64: int64(eid), Valid: true},
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	err = q.DeleteAttendee(context.Background(), a)
+	err = dbConn.Query.DeleteAttendee(dbConn.Context, a)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return

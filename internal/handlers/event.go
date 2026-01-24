@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"context"
 	"database/sql"
 	"net/http"
 	"strconv"
 
 	database "github.com/attendeee/event-app/internal/database/compiled-sql"
+	dbConn "github.com/attendeee/event-app/internal/database/conn"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,9 +29,7 @@ func CreateEvent(c *gin.Context) {
 		return
 	}
 
-	q := database.Queries{}
-
-	err = q.CreateEvent(context.Background(), e)
+	err = dbConn.Query.CreateEvent(dbConn.Context, e)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -62,9 +60,7 @@ func GetEventsByOwner(c *gin.Context) {
 
 	id := sql.NullInt64{Int64: int64(pInt), Valid: true}
 
-	q := database.Queries{}
-
-	foundEvents, err := q.GetEventByOwner(context.Background(), id)
+	foundEvents, err := dbConn.Query.GetEventByOwner(dbConn.Context, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -92,9 +88,7 @@ func GetEventsByName(c *gin.Context) {
 
 	name := c.Param("name")
 
-	q := database.Queries{}
-
-	foundEvents, err := q.GetEventByName(context.Background(), name)
+	foundEvents, err := dbConn.Query.GetEventByName(dbConn.Context, name)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -126,10 +120,7 @@ func UpdateEventInfo(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	err = q.UpdateEvent(context.Background() /* Todo: make something with this line */, up)
+	err = dbConn.Query.UpdateEvent(dbConn.Context, up)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -155,10 +146,7 @@ func DeleteEventByid(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	err = q.DeleteEventById(context.Background() /* Todo: make something with this line */, int64(id))
+	err = dbConn.Query.DeleteEventById(dbConn.Context, int64(id))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return

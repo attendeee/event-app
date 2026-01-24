@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"context"
 	"net/http"
 	"strconv"
 	"time"
 
 	database "github.com/attendeee/event-app/internal/database/compiled-sql"
+	dbConn "github.com/attendeee/event-app/internal/database/conn"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
@@ -36,12 +36,9 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
 	u.Password = string(hash)
 
-	_, err = q.CreateUser(context.Background() /* Todo: make something with this line */, *u)
+	_, err = dbConn.Query.CreateUser(dbConn.Context, *u)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -68,10 +65,7 @@ func AuthUser(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	existingUser, err := q.GetUserByEmail(context.Background() /* Todo: make something with this line */, u.Email)
+	existingUser, err := dbConn.Query.GetUserByEmail(dbConn.Context, u.Email)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -100,10 +94,8 @@ func AuthUser(c *gin.Context) {
 // @Produce      json
 // @Router       /user/all [get]
 func GetAllUsers(c *gin.Context) {
-	/* Todo: make something with this line */
-	q := database.Queries{}
 
-	users, err := q.GetAllUsers(context.Background())
+	users, err := dbConn.Query.GetAllUsers(dbConn.Context)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -134,10 +126,7 @@ func UpdateUserInfo(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	err = q.UpdateUserInfo(context.Background() /* Todo: make something with this line */, up)
+	err = dbConn.Query.UpdateUserInfo(dbConn.Context, up)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -163,10 +152,7 @@ func UpdateUserPassword(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	err = q.UpdateUserPassword(context.Background() /* Todo: make something with this line */, up)
+	err = dbConn.Query.UpdateUserPassword(dbConn.Context, up)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
@@ -192,10 +178,7 @@ func DeleteUserById(c *gin.Context) {
 		return
 	}
 
-	/* Todo: make something with this line */
-	q := database.Queries{}
-
-	err = q.DeleteUserById(context.Background() /* Todo: make something with this line */, int64(id))
+	err = dbConn.Query.DeleteUserById(dbConn.Context, int64(id))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return
