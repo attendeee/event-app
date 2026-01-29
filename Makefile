@@ -4,6 +4,9 @@
 build:
 	@air build	
 
+swag:
+	@swag init --parseDependency --parseInternal -g ./cmd/api/main.go -o ./cmd/docs
+
 clean:
 	@rm -rf ./bin/*
 
