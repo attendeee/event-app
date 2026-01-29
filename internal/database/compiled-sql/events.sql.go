@@ -17,11 +17,11 @@ VALUES (?, ?, ?, ?, ?)
 `
 
 type CreateEventParams struct {
-	OwnerID     sql.NullInt64
-	Name        string
-	Description string
-	Date        string
-	Location    string
+	OwnerID     sql.NullInt64 `json:"owner_id"`
+	Name        string        `json:"name"`
+	Description string        `json:"description"`
+	Date        string        `json:"date"`
+	Location    string        `json:"location"`
 }
 
 func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) error {
@@ -159,10 +159,10 @@ WHERE id = (?)
 `
 
 type UpdateEventParams struct {
-	NULLIF   interface{}
-	NULLIF_2 interface{}
-	NULLIF_3 interface{}
-	ID       int64
+	NULLIF   interface{} `json:"NULLIF"`
+	NULLIF_2 interface{} `json:"NULLIF_2"`
+	NULLIF_3 interface{} `json:"NULLIF_3"`
+	ID       int64       `json:"id"`
 }
 
 func (q *Queries) UpdateEvent(ctx context.Context, arg UpdateEventParams) error {

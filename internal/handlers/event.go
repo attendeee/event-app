@@ -17,15 +17,15 @@ import (
 // @Tags         event
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Account ID"
+// @Param		 request body database.CreateEventParams true "Event information"
 // @Router       /event [post]
 func CreateEvent(c *gin.Context) {
 
 	e := database.CreateEventParams{}
 
-	err := c.BindJSON(e)
+	err := c.ShouldBindJSON(e)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -46,7 +46,7 @@ func CreateEvent(c *gin.Context) {
 // @Tags         event
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Account ID"
+// @Param        ownerId   path      int  true  "Owner ID"
 // @Router       /event/{ownerId} [get]
 func GetEventsByOwner(c *gin.Context) {
 
@@ -82,7 +82,7 @@ func GetEventsByOwner(c *gin.Context) {
 // @Tags         event
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Account ID"
+// @Param        name   path      string  true  "Name of event"
 // @Router       /event/{name} [get]
 func GetEventsByName(c *gin.Context) {
 
@@ -110,7 +110,7 @@ func GetEventsByName(c *gin.Context) {
 // @Tags         event
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Account ID"
+// @Param        request   body      database.UpdateEventParams  true  "Event information"
 // @Router       /event/ [put]
 func UpdateEventInfo(c *gin.Context) {
 	up := database.UpdateEventParams{}
@@ -137,7 +137,7 @@ func UpdateEventInfo(c *gin.Context) {
 // @Tags         event
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Account ID"
+// @Param        eventId   path      int  true  "Account ID"
 // @Router       /event/{eventId} [delete]
 func DeleteEventByid(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))

@@ -9,23 +9,23 @@ import (
 )
 
 type Attendee struct {
-	ID      int64
-	UserID  sql.NullInt64
-	EventID sql.NullInt64
+	ID      int64         `json:"id"`
+	UserID  sql.NullInt64 `json:"user_id"`
+	EventID sql.NullInt64 `json:"event_id"`
 }
 
 type Event struct {
-	ID          int64
-	OwnerID     sql.NullInt64
-	Name        string
-	Description string
-	Date        string
-	Location    string
+	ID          int64         `json:"id"`
+	OwnerID     sql.NullInt64 `json:"owner_id"`
+	Name        string        `json:"name"`
+	Description string        `json:"description"`
+	Date        string        `json:"date"`
+	Location    string        `json:"location"`
 }
 
 type User struct {
-	ID       int64
-	Name     string
-	Email    string
-	Password string
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password,omitempty"`
 }

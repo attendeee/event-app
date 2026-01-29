@@ -17,9 +17,9 @@ RETURNING id, name, email, password
 `
 
 type CreateUserParams struct {
-	Name     string
-	Email    string
-	Password string
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password,omitempty"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -103,9 +103,9 @@ WHERE id = (?)
 `
 
 type UpdateUserInfoParams struct {
-	NULLIF   interface{}
-	NULLIF_2 interface{}
-	ID       int64
+	NULLIF   interface{} `json:"NULLIF"`
+	NULLIF_2 interface{} `json:"NULLIF_2"`
+	ID       int64       `json:"id"`
 }
 
 func (q *Queries) UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error {
@@ -120,8 +120,8 @@ WHERE id = (?)
 `
 
 type UpdateUserPasswordParams struct {
-	Password string
-	ID       int64
+	Password string `json:"password,omitempty"`
+	ID       int64  `json:"id"`
 }
 
 func (q *Queries) UpdateUserPassword(ctx context.Context, arg UpdateUserPasswordParams) error {

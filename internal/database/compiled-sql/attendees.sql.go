@@ -17,8 +17,8 @@ VALUES (?, ?)
 `
 
 type AddAttendeeParams struct {
-	EventID sql.NullInt64
-	UserID  sql.NullInt64
+	EventID sql.NullInt64 `json:"event_id"`
+	UserID  sql.NullInt64 `json:"user_id"`
 }
 
 func (q *Queries) AddAttendee(ctx context.Context, arg AddAttendeeParams) error {
@@ -32,8 +32,8 @@ WHERE user_id = (?) AND event_id = (?)
 `
 
 type DeleteAttendeeParams struct {
-	UserID  sql.NullInt64
-	EventID sql.NullInt64
+	UserID  sql.NullInt64 `json:"user_id"`
+	EventID sql.NullInt64 `json:"event_id"`
 }
 
 func (q *Queries) DeleteAttendee(ctx context.Context, arg DeleteAttendeeParams) error {

@@ -20,6 +20,7 @@ import (
 // @Tags         user
 // @Accept       json
 // @Produce      json
+// @Param		 request body database.CreateUserParams true "User information"
 // @Router       /user/register [post]
 func RegisterUser(c *gin.Context) {
 	u := &database.CreateUserParams{}
@@ -55,6 +56,7 @@ func RegisterUser(c *gin.Context) {
 // @Tags         user
 // @Accept       json
 // @Produce      json
+// @Param		 request body database.CreateUserParams true "User information"
 // @Router       /user/auth [post]
 func AuthUser(c *gin.Context) {
 	u := &database.CreateUserParams{}
@@ -117,6 +119,7 @@ func GetAllUsers(c *gin.Context) {
 // @Tags         user
 // @Accept       json
 // @Produce      json
+// @Param		 request body database.UpdateUserInfoParams true "User information to update"
 // @Router       /user/info [put]
 func UpdateUserInfo(c *gin.Context) {
 	up := database.UpdateUserInfoParams{}
@@ -143,6 +146,7 @@ func UpdateUserInfo(c *gin.Context) {
 // @Tags         user
 // @Accept       json
 // @Produce      json
+// @Param		 request body database.UpdateUserPasswordParams true "User password to update"
 // @Router       /user/password [put]
 func UpdateUserPassword(c *gin.Context) {
 	up := database.UpdateUserPasswordParams{}
@@ -170,9 +174,9 @@ func UpdateUserPassword(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        id   path      int  true  "Account ID"
-// @Router       /user/ [delete]
+// @Router       /user/{id} [delete]
 func DeleteUserById(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("userid"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, nil)
 		return

@@ -10,7 +10,7 @@ func V1(r *gin.RouterGroup) {
 	r.GET("/ping", handler.Ping)
 
 	r.GET("/user/all", handler.GetAllUsers)
-	r.POST("/user/regisger", handler.RegisterUser)
+	r.POST("/user/register", handler.RegisterUser)
 	r.PUT("/user/info", handler.UpdateUserInfo)
 	r.PUT("/user/password", handler.UpdateUserPassword)
 	r.DELETE("/user/:userId", handler.DeleteUserById)
