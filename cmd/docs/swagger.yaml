@@ -1,4 +1,58 @@
 basePath: /api/v1
+definitions:
+  github_com_attendeee_event-app_internal_database_compiled-sql.CreateEventParams:
+    properties:
+      date:
+        type: string
+      description:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      owner_id:
+        $ref: '#/definitions/sql.NullInt64'
+    type: object
+  github_com_attendeee_event-app_internal_database_compiled-sql.CreateUserParams:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  github_com_attendeee_event-app_internal_database_compiled-sql.UpdateEventParams:
+    properties:
+      NULLIF: {}
+      NULLIF_2: {}
+      NULLIF_3: {}
+      id:
+        type: integer
+    type: object
+  github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserInfoParams:
+    properties:
+      NULLIF: {}
+      NULLIF_2: {}
+      id:
+        type: integer
+    type: object
+  github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserPasswordParams:
+    properties:
+      id:
+        type: integer
+      password:
+        type: string
+    type: object
+  sql.NullInt64:
+    properties:
+      int64:
+        format: int64
+        type: integer
+      valid:
+        description: Valid is true if Int64 is not NULL
+        type: boolean
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -12,11 +66,12 @@ paths:
       - application/json
       description: Create event
       parameters:
-      - description: Account ID
-        in: path
-        name: id
+      - description: Event information
+        in: body
+        name: request
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.CreateEventParams'
       produces:
       - application/json
       responses: {}
@@ -29,11 +84,12 @@ paths:
       - application/json
       description: Update event info
       parameters:
-      - description: Account ID
-        in: path
-        name: id
+      - description: Event information
+        in: body
+        name: request
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.UpdateEventParams'
       produces:
       - application/json
       responses: {}
@@ -48,7 +104,7 @@ paths:
       parameters:
       - description: Account ID
         in: path
-        name: id
+        name: eventId
         required: true
         type: integer
       produces:
@@ -97,11 +153,11 @@ paths:
       - application/json
       description: Get events by name
       parameters:
-      - description: Account ID
+      - description: Name of event
         in: path
-        name: id
+        name: name
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses: {}
@@ -114,9 +170,9 @@ paths:
       - application/json
       description: Get events by owner id
       parameters:
-      - description: Account ID
+      - description: Owner ID
         in: path
-        name: id
+        name: ownerId
         required: true
         type: integer
       produces:
@@ -153,7 +209,7 @@ paths:
       summary: Basic Ping
       tags:
       - healthcheck
-  /user/:
+  /user/{id}:
     delete:
       consumes:
       - application/json
@@ -172,8 +228,6 @@ paths:
       - user
   /user/all:
     get:
-      consumes:
-      - application/json
       description: Get all users
       produces:
       - application/json
@@ -186,6 +240,13 @@ paths:
       consumes:
       - application/json
       description: Authorize user
+      parameters:
+      - description: User information
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.CreateUserParams'
       produces:
       - application/json
       responses: {}
@@ -197,6 +258,13 @@ paths:
       consumes:
       - application/json
       description: Update user info
+      parameters:
+      - description: User information to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserInfoParams'
       produces:
       - application/json
       responses: {}
@@ -208,6 +276,13 @@ paths:
       consumes:
       - application/json
       description: Update user password
+      parameters:
+      - description: User password to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserPasswordParams'
       produces:
       - application/json
       responses: {}
@@ -219,6 +294,13 @@ paths:
       consumes:
       - application/json
       description: Register user
+      parameters:
+      - description: User information
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.CreateUserParams'
       produces:
       - application/json
       responses: {}

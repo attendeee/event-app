@@ -30,11 +30,13 @@ const docTemplate = `{
                 "summary": "Create event",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "Event information",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.CreateEventParams"
+                        }
                     }
                 ],
                 "responses": {}
@@ -55,11 +57,13 @@ const docTemplate = `{
                 "summary": "Update event info",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "Event information",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.UpdateEventParams"
+                        }
                     }
                 ],
                 "responses": {}
@@ -107,7 +111,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "Account ID",
-                        "name": "id",
+                        "name": "eventId",
                         "in": "path",
                         "required": true
                     }
@@ -180,9 +184,9 @@ const docTemplate = `{
                 "summary": "Get events by name",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
+                        "type": "string",
+                        "description": "Name of event",
+                        "name": "name",
                         "in": "path",
                         "required": true
                     }
@@ -206,8 +210,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
+                        "description": "Owner ID",
+                        "name": "ownerId",
                         "in": "path",
                         "required": true
                     }
@@ -231,37 +235,9 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/user/": {
-            "delete": {
-                "description": "Delete user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Delete user",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
         "/user/all": {
             "get": {
                 "description": "Get all users",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -285,6 +261,17 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Authorize user",
+                "parameters": [
+                    {
+                        "description": "User information",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.CreateUserParams"
+                        }
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -301,6 +288,17 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Update user info",
+                "parameters": [
+                    {
+                        "description": "User information to update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserInfoParams"
+                        }
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -317,6 +315,17 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Update user password",
+                "parameters": [
+                    {
+                        "description": "User password to update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserPasswordParams"
+                        }
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -333,7 +342,124 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Register user",
+                "parameters": [
+                    {
+                        "description": "User information",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_attendeee_event-app_internal_database_compiled-sql.CreateUserParams"
+                        }
+                    }
+                ],
                 "responses": {}
+            }
+        },
+        "/user/{id}": {
+            "delete": {
+                "description": "Delete user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Delete user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "github_com_attendeee_event-app_internal_database_compiled-sql.CreateEventParams": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                }
+            }
+        },
+        "github_com_attendeee_event-app_internal_database_compiled-sql.CreateUserParams": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_attendeee_event-app_internal_database_compiled-sql.UpdateEventParams": {
+            "type": "object",
+            "properties": {
+                "NULLIF": {},
+                "NULLIF_2": {},
+                "NULLIF_3": {},
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserInfoParams": {
+            "type": "object",
+            "properties": {
+                "NULLIF": {},
+                "NULLIF_2": {},
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_attendeee_event-app_internal_database_compiled-sql.UpdateUserPasswordParams": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "sql.NullInt64": {
+            "type": "object",
+            "properties": {
+                "int64": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "valid": {
+                    "description": "Valid is true if Int64 is not NULL",
+                    "type": "boolean"
+                }
             }
         }
     },
